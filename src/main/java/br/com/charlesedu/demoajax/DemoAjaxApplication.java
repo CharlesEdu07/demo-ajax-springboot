@@ -23,5 +23,9 @@ public class DemoAjaxApplication implements CommandLineRunner {
 		SocialMetaTag og = service.getOpenGraphByUrl("https://www.mobly.com.br/poltrona-luiza-madeira-macica-bege-e-nogueira-895520.html?origin=jetmobly&label=");
 
 		System.out.println(og.toString());
+
+		SocialMetaTag twitter = service.getTwitterCardByUrl("https://www.mobly.com.br/poltrona-luiza-madeira-macica-bege-e-nogueira-895520.html?origin=jetmobly&label=");
+
+		System.out.println(twitter.toString());
 	}
 }
