@@ -20,12 +20,8 @@ public class DemoAjaxApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		SocialMetaTag og = service.getOpenGraphByUrl("https://www.mobly.com.br/poltrona-luiza-madeira-macica-bege-e-nogueira-895520.html?origin=jetmobly&label=");
+		SocialMetaTag tag = service.getSocialMetaTagByUrl("https://www.gazin.com.br/produto/7634/tablet-vaio-tl10-104-128gb-8gb-octa-core-2ghz-android-com-teclado-magnetico?cor=preto&voltagem=bivolt&seller_id=6");
 
-		System.out.println(og.toString());
-
-		SocialMetaTag twitter = service.getTwitterCardByUrl("https://www.mobly.com.br/poltrona-luiza-madeira-macica-bege-e-nogueira-895520.html?origin=jetmobly&label=");
-
-		System.out.println(twitter.toString());
+		System.out.println(tag.toString());
 	}
 }

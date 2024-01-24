@@ -4,13 +4,34 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import br.com.charlesedu.demoajax.domain.SocialMetaTag;
 
 @Service
 public class SocialMetaTagService {
-    public SocialMetaTag getOpenGraphByUrl(String url) {
+
+    private static Logger log = LoggerFactory.getLogger(SocialMetaTagService.class);
+
+    public SocialMetaTag getSocialMetaTagByUrl(String url) {
+        SocialMetaTag twitter = getTwitterCardByUrl(url);
+
+        if (!isEmpty(twitter)) {
+            return twitter;
+        }
+
+        SocialMetaTag openGraph = getOpenGraphByUrl(url);
+
+        if (!isEmpty(openGraph)) {
+            return openGraph;
+        }
+
+        return null;
+    }
+
+    private SocialMetaTag getOpenGraphByUrl(String url) {
         SocialMetaTag tag = new SocialMetaTag();
 
         try {
@@ -21,13 +42,13 @@ public class SocialMetaTagService {
             tag.setImage(doc.head().select("meta[property=og:image]").attr("content"));
             tag.setUrl(doc.head().select("meta[property=og:url]").attr("content"));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e.getCause());
         }
 
         return tag;
     }
 
-    public SocialMetaTag getTwitterCardByUrl(String url) {
+    private SocialMetaTag getTwitterCardByUrl(String url) {
         SocialMetaTag tag = new SocialMetaTag();
 
         try {
@@ -38,9 +59,29 @@ public class SocialMetaTagService {
             tag.setImage(doc.head().select("meta[name=twitter:image]").attr("content"));
             tag.setUrl(doc.head().select("meta[name=twitter:url]").attr("content"));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e.getCause());
         }
 
         return tag;
+    }
+
+    private boolean isEmpty(SocialMetaTag tag) {
+        if (tag.getImage().isEmpty()) {
+            return true;
+        }
+
+        if (tag.getSite().isEmpty()) {
+            return true;
+        }
+
+        if (tag.getTitle().isEmpty()) {
+            return true;
+        }
+
+        if (tag.getUrl().isEmpty()) {
+            return true;
+        }
+
+        return false;
     }
 }
