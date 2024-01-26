@@ -13,6 +13,14 @@ $("#saleLink").on('change', function () {
                 $("#site").text(data.site.replace("@", ""));
                 $("#imageLink").attr("src", data.image);
             },
+            statusCode: {
+                404: function () {
+                    $("#alert").addClass("alert alert-danger").text("Nenhuma informação pode ser recuperada da URL informada.");
+                }
+            },
+            error: function (data) {
+                $("#alert").addClass("alert alert-danger").text("Algo deu errado. Tente novamente mais tarde.");
+            }
         });
     }
 });
