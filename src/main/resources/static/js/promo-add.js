@@ -8,6 +8,10 @@ $("#saleLink").on('change', function () {
             cache: false,
             success: function (data) {
                 console.log(data);
+
+                $("#title").val(data.title);
+                $("#site").text(data.site.replace("@", ""));
+                $("#imageLink").attr("src", data.image);
             },
         });
     }
