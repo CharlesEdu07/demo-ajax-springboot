@@ -1,4 +1,4 @@
-$("#saleLink").on('change', function () {
+$("#saleLink").on("change", function () {
     var url = $(this).val();
 
     if (url.length > 7) {
