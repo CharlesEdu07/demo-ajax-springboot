@@ -12,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -47,6 +49,10 @@ public class Sale implements Serializable {
 
     @Column(name = "register_date", nullable = false)
     private LocalDateTime registerDate;
+
+    @ManyToOne
+    @JoinColumn(name = "category_fk")
+    private Category category;
 
     public Long getId() {
         return id;
@@ -118,5 +124,20 @@ public class Sale implements Serializable {
 
     public void setRegisterDate(LocalDateTime registerDate) {
         this.registerDate = registerDate;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Sale [id=" + id + ", title=" + title + ", saleLink=" + saleLink + ", site=" + site + ", description="
+                + description + ", imageLink=" + imageLink + ", price=" + price + ", likes=" + likes + ", registerDate="
+                + registerDate + ", category=" + category + "]";
     }
 }
