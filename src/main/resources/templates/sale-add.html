@@ -9,7 +9,7 @@
   <div class="main-body" layout:fragment="main-body">
     <div id="loader-form" class="pre-load"></div>
 
-    <form id="form-add-promo" action="#">
+    <form id="form-add-sale" action="#">
       <div id="alert"></div>
 
       <div class="form-group">
@@ -32,7 +32,7 @@
           <div class="card" style="width: 18rem">
             <div class="card-header">Imagem</div>
             <span class="mx-auto" id="loader-img"></span>
-            <img id="imageLink" name="imageLink" class="card-img-top" th:src="@{/images/promo-dark.jpg}"
+            <img id="imageLink" name="imageLink" class="card-img-top" th:src="@{/images/sale-dark.jpg}"
               width="308px" />
             <div class="card-body bg-light">
               <h5 id="site" class="card-title"></h5>
@@ -72,7 +72,7 @@
     </form>
   </div>
 
-  <script th:src="@{/js/promo-add.js}" th:fragment="js"></script>
+  <script th:src="@{/js/sale-add.js}" th:fragment="js"></script>
 </body>
 
 </html>

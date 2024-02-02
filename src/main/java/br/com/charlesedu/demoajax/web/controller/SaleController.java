@@ -25,6 +25,6 @@ public class SaleController {
 
     @GetMapping("/add")
     public String openRegistration() {
-        return "promo-add";
+        return "sale-add";
     }
 }
