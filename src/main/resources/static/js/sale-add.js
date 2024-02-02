@@ -4,10 +4,10 @@ $("#form-add-sale").submit(function (event) {
     var sale = {};
 
     sale.title = $("#title").val();
-    sale.link = $("#saleLink").val();
+    sale.saleLink = $("#saleLink").val();
     sale.site = $("#site").text();
     sale.description = $("#description").val();
-    sale.image = $("#imageLink").attr("src");
+    sale.imageLink = $("#imageLink").attr("src");
     sale.price = $("#price").val();
     sale.category = $("#category").val();
 
@@ -15,7 +15,7 @@ $("#form-add-sale").submit(function (event) {
 
     $.ajax({
         method: "POST",
-        url: "sale/save",
+        url: "/sale/save",
         data: sale,
         success: function (data) {
             $("#alert").addClass("alert alert-success").text("Promoção cadastrada com sucesso.");
@@ -33,7 +33,7 @@ $("#saleLink").on("change", function () {
     if (url.length > 7) {
         $.ajax({
             method: "POST",
-            url: "meta/info?url=" + url,
+            url: "/meta/info?url=" + url,
             cache: false,
             beforeSend: function () {
                 $("#alert").removeClass("alert alert-danger").text("");
