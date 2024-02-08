@@ -17,6 +17,10 @@ $("#form-add-sale").submit(function (event) {
         method: "POST",
         url: "/sale/save",
         data: sale,
+        beforeSend: function () {
+            $("#form-add-sale").hide();
+            $("#loader-form").addClass("loader").show();
+        },
         success: function (data) {
             $("#form-add-sale").each(function () {
                 this.reset();
@@ -28,6 +32,12 @@ $("#form-add-sale").submit(function (event) {
         error: function (xhr) {
             console.log("> error: ", xhr.responseText)
             $("#alert").addClass("alert alert-danger").text("Não foi possível salvar esta promoção.");
+        },
+        complete: function () {
+            $("#loader-form").fadeOut(800, function () {
+                $("#form-add-sale").fadeIn(250);
+                $("#loader-form").removeClass("loader");
+            })
         }
     })
 })
