@@ -18,6 +18,11 @@ $("#form-add-sale").submit(function (event) {
         url: "/sale/save",
         data: sale,
         success: function (data) {
+            $("#form-add-sale").each(function () {
+                this.reset();
+            });
+            $("#imageLink").attr("src", "/images/sale-dark.jpg");
+            $("#site").text("");
             $("#alert").addClass("alert alert-success").text("Promoção cadastrada com sucesso.");
         },
         error: function (xhr) {
@@ -36,7 +41,7 @@ $("#saleLink").on("change", function () {
             url: "/meta/info?url=" + url,
             cache: false,
             beforeSend: function () {
-                $("#alert").removeClass("alert alert-danger").text("");
+                $("#alert").removeClass("alert alert-danger alert-success").text("");
                 $("#title").val("");
                 $("#site").text("");
                 $("#imageLink").attr("src", "");
