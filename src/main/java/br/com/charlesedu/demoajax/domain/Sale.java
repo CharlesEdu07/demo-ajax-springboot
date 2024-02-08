@@ -15,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @SuppressWarnings("serial")
 @Entity
@@ -25,9 +27,11 @@ public class Sale implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O título é obrigatório")
     @Column(name = "title", nullable = false)
     private String title;
 
+    @NotBlank(message = "O link da oferta é obrigatório")
     @Column(name = "sale_link", nullable = false)
     private String saleLink;
 
@@ -40,6 +44,7 @@ public class Sale implements Serializable {
     @Column(name = "image_link", nullable = false)
     private String imageLink;
 
+    @NotNull(message = "O preço é obrigatório")
     @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     @Column(name = "sale_price", nullable = false)
     private BigDecimal price;
@@ -50,6 +55,7 @@ public class Sale implements Serializable {
     @Column(name = "register_date", nullable = false)
     private LocalDateTime registerDate;
 
+    @NotNull(message = "A categoria é obrigatória")
     @ManyToOne
     @JoinColumn(name = "category_fk")
     private Category category;
