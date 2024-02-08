@@ -1,13 +1,17 @@
 package br.com.charlesedu.demoajax.web.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +21,7 @@ import br.com.charlesedu.demoajax.domain.Category;
 import br.com.charlesedu.demoajax.domain.Sale;
 import br.com.charlesedu.demoajax.repository.CategoryRepository;
 import br.com.charlesedu.demoajax.repository.SaleRepository;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/sale")
@@ -31,7 +36,17 @@ public class SaleController {
     private CategoryRepository categoryRepository;
 
     @PostMapping("/save")
-    public ResponseEntity<Sale> saveSale(Sale sale) {
+    public ResponseEntity<?> saveSale(@Valid Sale sale, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+
+            for (FieldError error : result.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+
+            return ResponseEntity.unprocessableEntity().body(errors);
+        }
+
         log.info("Sale: {}", sale);
 
         sale.setRegisterDate(LocalDateTime.now());
