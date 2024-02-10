@@ -18,6 +18,16 @@ $("#form-add-sale").submit(function (event) {
         url: "/sale/save",
         data: sale,
         beforeSend: function () {
+            // Remove all error messages
+            $("span").closest(".error-span").remove();
+
+            // Remove all is-invalid classes
+            $("#category").removeClass("is-invalid");
+            $("#price").removeClass("is-invalid");
+            $("#saleLink").removeClass("is-invalid");
+            $("#title").removeClass("is-invalid");
+
+            // Trigger the loader
             $("#form-add-sale").hide();
             $("#loader-form").addClass("loader").show();
         },
@@ -27,7 +37,19 @@ $("#form-add-sale").submit(function (event) {
             });
             $("#imageLink").attr("src", "/images/sale-dark.jpg");
             $("#site").text("");
-            $("#alert").addClass("alert alert-success").text("Promoção cadastrada com sucesso.");
+            $("#alert").removeClass("alert alert-danger").addClass("alert alert-success").text("Promoção cadastrada com sucesso.");
+        },
+        statusCode: {
+            422: function (xhr) {
+                console.log('> error: ', xhr.responseText);
+
+                var errors = $.parseJSON(xhr.responseText);
+
+                $.each(errors, function (key, value) {
+                    $("#" + key).addClass("is-invalid");
+                    $("#error-" + key).addClass("invalid-feedback").append("<span class='error-span'>" + value + "</span>");
+                })
+            }
         },
         error: function (xhr) {
             console.log("> error: ", xhr.responseText)
