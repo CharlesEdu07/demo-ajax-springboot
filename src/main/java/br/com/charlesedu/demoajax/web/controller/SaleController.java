@@ -8,8 +8,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,11 @@ public class SaleController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @GetMapping("/add")
+    public String openRegistration() {
+        return "sale-add";
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> saveSale(@Valid Sale sale, BindingResult result) {
         if (result.hasErrors()) {
@@ -56,13 +63,17 @@ public class SaleController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/list")
+    public String saleList(ModelMap model) {
+        Sort sort = Sort.by("registerDate").descending();
+
+        model.addAttribute("sales", saleRepository.findAll(sort));
+
+        return "sale-list";
+    }
+
     @ModelAttribute("categories")
     public List<Category> getCategories() {
         return categoryRepository.findAll();
-    }
-
-    @GetMapping("/add")
-    public String openRegistration() {
-        return "sale-add";
     }
 }
