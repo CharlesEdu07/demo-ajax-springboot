@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -67,7 +68,9 @@ public class SaleController {
     public String saleList(ModelMap model) {
         Sort sort = Sort.by("registerDate").descending();
 
-        model.addAttribute("sales", saleRepository.findAll(sort));
+        PageRequest pageRequest = PageRequest.of(0, 8, sort);
+
+        model.addAttribute("sales", saleRepository.findAll(pageRequest));
 
         return "sale-list";
     }
