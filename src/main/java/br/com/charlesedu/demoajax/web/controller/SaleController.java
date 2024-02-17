@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.charlesedu.demoajax.domain.Category;
 import br.com.charlesedu.demoajax.domain.Sale;
@@ -73,6 +74,17 @@ public class SaleController {
         model.addAttribute("sales", saleRepository.findAll(pageRequest));
 
         return "sale-list";
+    }
+
+    @GetMapping("/list/ajax")
+    public String saleCardsList(@RequestParam(name = "page", defaultValue = "1") int page, ModelMap model) {
+        Sort sort = Sort.by("registerDate").descending();
+
+        PageRequest pageRequest = PageRequest.of(page, 8, sort);
+
+        model.addAttribute("sales", saleRepository.findAll(pageRequest));
+
+        return "sale-card";
     }
 
     @ModelAttribute("categories")
