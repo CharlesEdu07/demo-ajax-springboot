@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,6 +64,19 @@ public class SaleController {
         saleRepository.save(sale);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/like/{id}")
+    public ResponseEntity<?> sumLikes(@PathVariable("id") Long id) {
+        saleRepository.sumLikes(id);
+
+        System.out.println("ID: " + id);
+
+        int likes = saleRepository.findLikesById(id);
+
+        System.out.println(likes);
+
+        return ResponseEntity.ok(likes);
     }
 
     @GetMapping("/list")

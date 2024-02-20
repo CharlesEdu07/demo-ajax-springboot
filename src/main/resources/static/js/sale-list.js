@@ -60,9 +60,11 @@ $(document).on("click", "button[id*='likes-btn-']", function () {
 
     console.log("saleId: ", saleId);
 
+    console.log("/sale/like/" + saleId);
+
     $.ajax({
         method: "POST",
-        url: "/sale/likes/" + saleId,
+        url: "/sale/like/" + saleId,
         success: function (response) {
             $("#likes-count-" + saleId).text(response);
         },

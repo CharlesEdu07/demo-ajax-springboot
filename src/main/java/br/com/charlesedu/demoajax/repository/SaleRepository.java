@@ -12,7 +12,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     @Transactional(readOnly = false)
     @Modifying
-    @Query("UPDATE Sale s SET s.likes = s.likes + 1 WHERE s.id = :id")
+    @Query("UPDATE Sale s SET s.likes = COALESCE(s.likes, 0) + 1 WHERE s.id = :id")
     void sumLikes(@Param("id") Long id);
 
     @Query("SELECT s.likes FROM Sale s WHERE s.id = :id")
