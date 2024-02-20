@@ -53,3 +53,21 @@ function loadByScrollBar(pageNumber) {
         }
     })
 }
+
+//Adicionar likes
+$(document).on("click", "button[id*='likes-btn-']", function () {
+    var saleId = $(this).attr("id").split("-")[2];
+
+    console.log("saleId: ", saleId);
+
+    $.ajax({
+        method: "POST",
+        url: "/sale/likes/" + saleId,
+        success: function (response) {
+            $("#likes-count-" + saleId).text(response);
+        },
+        error: function (xhr) {
+            alert("Ops! Ocorreu um erro: " + xhr.status + " - " + xhr.statusText);
+        }
+    });
+});
