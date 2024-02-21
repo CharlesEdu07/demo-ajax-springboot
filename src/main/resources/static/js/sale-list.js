@@ -54,7 +54,24 @@ function loadByScrollBar(pageNumber) {
     })
 }
 
-//Adicionar likes
+// Autocomplete
+
+$("#autocomplete-input").autocomplete({
+    source: function (request, response) {
+        $.ajax({
+            method: "GET",
+            url: "/sale/site",
+            data: {
+                term: request.term,
+            },
+            success: function (result) {
+                response(result);
+            }
+        });
+    }
+});
+
+// Adicionar likes
 $(document).on("click", "button[id*='likes-btn-']", function () {
     var saleId = $(this).attr("id").split("-")[2];
 
