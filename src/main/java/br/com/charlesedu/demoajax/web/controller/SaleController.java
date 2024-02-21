@@ -66,6 +66,13 @@ public class SaleController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/site")
+    public ResponseEntity<?> autocompleteByTerm(@RequestParam("term") String term) {
+        List<String> sites = saleRepository.findSitesByTerm(term);
+
+        return ResponseEntity.ok(sites);
+    }
+
     @PostMapping("/like/{id}")
     public ResponseEntity<?> sumLikes(@PathVariable("id") Long id) {
         saleRepository.sumLikes(id);
