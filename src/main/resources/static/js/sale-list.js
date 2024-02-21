@@ -24,11 +24,14 @@ $(window).scroll(function () {
 });
 
 function loadByScrollBar(pageNumber) {
+    var site = $("#autocomplete-input").val();
+
     $.ajax({
         method: "GET",
         url: "/sale/list/ajax",
         data: {
-            page: pageNumber
+            page: pageNumber,
+            site: site,
         },
         beforeSend: function () {
             $("#loader-img").show();
