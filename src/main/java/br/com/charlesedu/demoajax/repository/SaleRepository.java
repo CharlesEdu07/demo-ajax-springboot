@@ -2,6 +2,8 @@ package br.com.charlesedu.demoajax.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.charlesedu.demoajax.domain.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
+
+    @Query("SELECT s FROM Sale s WHERE s.site LIKE :site")
+    Page<Sale> findBySite(@Param("site") String site, Pageable pageable);
 
     @Query("SELECT DISTINCT s.site FROM Sale s WHERE s.site LIKE %:term%")
     List<String> findSitesByTerm(@Param("term") String term);

@@ -73,15 +73,22 @@ public class SaleController {
         return ResponseEntity.ok(sites);
     }
 
+    @GetMapping("/site/list")
+    public String listBySite(@RequestParam("site") String site, ModelMap model) {
+        Sort sort = Sort.by("registerDate").descending();
+
+        PageRequest pageRequest = PageRequest.of(0, 8, sort);
+
+        model.addAttribute("sales", saleRepository.findBySite(site, pageRequest));
+
+        return "sale-card";
+    }
+
     @PostMapping("/like/{id}")
     public ResponseEntity<?> sumLikes(@PathVariable("id") Long id) {
         saleRepository.sumLikes(id);
 
-        System.out.println("ID: " + id);
-
         int likes = saleRepository.findLikesById(id);
-
-        System.out.println(likes);
 
         return ResponseEntity.ok(likes);
     }

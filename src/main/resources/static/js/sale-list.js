@@ -55,7 +55,6 @@ function loadByScrollBar(pageNumber) {
 }
 
 // Autocomplete
-
 $("#autocomplete-input").autocomplete({
     source: function (request, response) {
         $.ajax({
@@ -71,13 +70,36 @@ $("#autocomplete-input").autocomplete({
     }
 });
 
+$("#autocomplete-submit").on("click", function () {
+    var site = $("#autocomplete-input").val();
+
+    $.ajax({
+        method: "GET",
+        url: "/sale/site/list",
+        data: {
+            site: site,
+        },
+        beforeSend: function () {
+            pageNumber = 0;
+            $("#end-btn").hide();
+            $(".row").fadeOut(400, function () {
+                $(this).empty();
+            });
+        },
+        success: function (response) {
+            $(".row").fadeIn(250, function () {
+                $(this).append(response);
+            });
+        },
+        error: function (xhr) {
+            alert("Ops! Ocorreu um erro: " + xhr.status + " - " + xhr.statusText);
+        }
+    });
+});
+
 // Adicionar likes
 $(document).on("click", "button[id*='likes-btn-']", function () {
     var saleId = $(this).attr("id").split("-")[2];
-
-    console.log("saleId: ", saleId);
-
-    console.log("/sale/like/" + saleId);
 
     $.ajax({
         method: "POST",
