@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("table-server").DataTable({
+    $("#table-server").DataTable({
         processing: true,
         serverSide: true,
         responsive: true,

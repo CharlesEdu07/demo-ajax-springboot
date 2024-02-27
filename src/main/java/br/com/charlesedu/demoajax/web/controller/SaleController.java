@@ -26,6 +26,8 @@ import br.com.charlesedu.demoajax.domain.Category;
 import br.com.charlesedu.demoajax.domain.Sale;
 import br.com.charlesedu.demoajax.repository.CategoryRepository;
 import br.com.charlesedu.demoajax.repository.SaleRepository;
+import br.com.charlesedu.demoajax.service.SaleDataTablesService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -119,6 +121,18 @@ public class SaleController {
         }
 
         return "sale-card";
+    }
+
+    @GetMapping("/table")
+    public String showTable() {
+        return "sale-datatables";
+    }
+
+    @GetMapping("/datatables/server")
+    public ResponseEntity<?> datatables(HttpServletRequest request) {
+        Map<String, Object> data = new SaleDataTablesService().execute(saleRepository, request);
+
+        return ResponseEntity.ok(data);
     }
 
     @ModelAttribute("categories")

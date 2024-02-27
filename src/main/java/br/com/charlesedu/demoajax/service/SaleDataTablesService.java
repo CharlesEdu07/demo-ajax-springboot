@@ -3,11 +3,13 @@ package br.com.charlesedu.demoajax.service;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
+import br.com.charlesedu.demoajax.domain.Sale;
 import br.com.charlesedu.demoajax.repository.SaleRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -26,17 +28,23 @@ public class SaleDataTablesService {
         String column = columnName(request);
 
         Sort.Direction direction = orderBy(request);
-        
+
         Pageable pageable = PageRequest.of(current, length, direction, column);
+
+        Page<Sale> page = queryBy(repository, pageable);
 
         Map<String, Object> json = new LinkedHashMap<>();
 
         json.put("draw", draw);
-        json.put("recordsTotal", 0);
-        json.put("recordsFiltered", 0);
-        json.put("data", null);
+        json.put("recordsTotal", page.getTotalElements());
+        json.put("recordsFiltered", page.getTotalElements());
+        json.put("data", page.getContent());
 
         return json;
+    }
+
+    private Page<Sale> queryBy(SaleRepository repository, Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     private Direction orderBy(HttpServletRequest request) {

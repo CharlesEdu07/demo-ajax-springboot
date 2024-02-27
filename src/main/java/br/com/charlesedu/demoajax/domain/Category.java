@@ -3,6 +3,8 @@ package br.com.charlesedu.demoajax.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +24,8 @@ public class Category implements Serializable {
 
     @Column(name = "title", nullable = false, unique = true)
     private String title;
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Sale> sales;
 
