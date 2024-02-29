@@ -1,5 +1,6 @@
 package br.com.charlesedu.demoajax.service;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -48,6 +49,12 @@ public class SaleDataTablesService {
     private Page<Sale> queryBy(String search, SaleRepository repository, Pageable pageable) {
         if (search.isEmpty()) {
             return repository.findAll(pageable);
+        }
+
+        if (search.matches("^[0-9]+([.,][0-9]{2})?$")) {
+            search = search.replace(",", ".");
+
+            return repository.findByPrice(new BigDecimal(search), pageable);
         }
 
         return repository.findByTitleOrSiteOrCategory(search, pageable);

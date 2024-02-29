@@ -15,10 +15,10 @@ $(document).ready(function () {
             { data: "saleLink" },
             { data: "description" },
             { data: "imageLink" },
-            { data: "price" },
+            { data: "price", render: $.fn.dataTable.render.number(".", ",", 2, "R$") },
             { data: "likes" },
             { data: "registerDate" },
-            { data: "category" }
+            { data: "category.title" }
         ]
     });
 });

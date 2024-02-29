@@ -1,5 +1,6 @@
 package br.com.charlesedu.demoajax.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -13,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.charlesedu.demoajax.domain.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
+
+    @Query("SELECT s FROM Sale s WHERE s.price = :price")
+    Page<Sale> findByPrice(@Param("price") BigDecimal price, Pageable pageable);
 
     @Query("SELECT s FROM Sale s WHERE s.title LIKE %:search% OR s.site LIKE %:search% OR s.category.title LIKE %:search%")
     Page<Sale> findByTitleOrSiteOrCategory(@Param("search") String search, Pageable pageable);
