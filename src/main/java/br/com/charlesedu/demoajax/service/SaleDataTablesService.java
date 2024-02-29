@@ -29,9 +29,11 @@ public class SaleDataTablesService {
 
         Sort.Direction direction = orderBy(request);
 
+        String search = searchBy(request);
+
         Pageable pageable = PageRequest.of(current, length, direction, column);
 
-        Page<Sale> page = queryBy(repository, pageable);
+        Page<Sale> page = queryBy(search, repository, pageable);
 
         Map<String, Object> json = new LinkedHashMap<>();
 
@@ -43,8 +45,16 @@ public class SaleDataTablesService {
         return json;
     }
 
-    private Page<Sale> queryBy(SaleRepository repository, Pageable pageable) {
-        return repository.findAll(pageable);
+    private Page<Sale> queryBy(String search, SaleRepository repository, Pageable pageable) {
+        if (search.isEmpty()) {
+            return repository.findAll(pageable);
+        }
+
+        return repository.findByTitleOrSiteOrCategory(search, pageable);
+    }
+
+    private String searchBy(HttpServletRequest request) {
+        return request.getParameter("search[value]").isEmpty() ? "" : request.getParameter("search[value]");
     }
 
     private Direction orderBy(HttpServletRequest request) {

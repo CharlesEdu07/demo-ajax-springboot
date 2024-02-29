@@ -14,6 +14,9 @@ import br.com.charlesedu.demoajax.domain.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
+    @Query("SELECT s FROM Sale s WHERE s.title LIKE %:search% OR s.site LIKE %:search% OR s.category.title LIKE %:search%")
+    Page<Sale> findByTitleOrSiteOrCategory(@Param("search") String search, Pageable pageable);
+
     @Query("SELECT s FROM Sale s WHERE s.site LIKE :site")
     Page<Sale> findBySite(@Param("site") String site, Pageable pageable);
 
