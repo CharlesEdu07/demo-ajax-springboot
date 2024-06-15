@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.charlesedu.demoajax.domain.Sale;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
-
     @Query("SELECT s FROM Sale s WHERE s.price = :price")
     Page<Sale> findByPrice(@Param("price") BigDecimal price, Pageable pageable);
 
