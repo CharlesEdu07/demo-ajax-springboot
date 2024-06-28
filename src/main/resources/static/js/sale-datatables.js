@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    moment.locale("pt-br");
     $("#table-server").DataTable({
         processing: true,
         serverSide: true,
@@ -17,7 +18,7 @@ $(document).ready(function () {
             { data: "imageLink" },
             { data: "price", render: $.fn.dataTable.render.number(".", ",", 2, "R$") },
             { data: "likes" },
-            { data: "registerDate" },
+            { data: "registerDate", render: function (data) { return moment(data).format("LLL"); } },
             { data: "category.title" }
         ]
     });
