@@ -20,6 +20,31 @@ $(document).ready(function () {
             { data: "likes" },
             { data: "registerDate", render: function (data) { return moment(data).format("LLL"); } },
             { data: "category.title" }
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                text: "Editar",
+                attr: {
+                    id: "editButton",
+                    class: "btn btn-primary"
+                },
+            },
+            {
+                text: "Excluir",
+                attr: {
+                    id: "deleteButton",
+                    class: "btn btn-danger"
+                },
+            }
         ]
+    });
+
+    $("#editButton").click(function () {
+        alert("Editar");
+    });
+
+    $("#deleteButton").click(function () {
+        alert("Excluir");
     });
 });
