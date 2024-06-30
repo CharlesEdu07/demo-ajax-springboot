@@ -69,14 +69,14 @@ public class SaleController {
     }
 
     @GetMapping("/site")
-    public ResponseEntity<?> autocompleteByTerm(@RequestParam("term") String term) {
+    public ResponseEntity<?> autocompleteByTerm(@RequestParam String term) {
         List<String> sites = saleRepository.findSitesByTerm(term);
 
         return ResponseEntity.ok(sites);
     }
 
     @GetMapping("/site/list")
-    public String listBySite(@RequestParam("site") String site, ModelMap model) {
+    public String listBySite(@RequestParam String site, ModelMap model) {
         Sort sort = Sort.by("registerDate").descending();
 
         PageRequest pageRequest = PageRequest.of(0, 8, sort);
@@ -87,7 +87,7 @@ public class SaleController {
     }
 
     @PostMapping("/like/{id}")
-    public ResponseEntity<?> sumLikes(@PathVariable("id") Long id) {
+    public ResponseEntity<?> sumLikes(@PathVariable Long id) {
         saleRepository.sumLikes(id);
 
         int likes = saleRepository.findLikesById(id);
@@ -107,8 +107,8 @@ public class SaleController {
     }
 
     @GetMapping("/list/ajax")
-    public String saleCardsList(@RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "site", defaultValue = "") String site, ModelMap model) {
+    public String saleCardsList(@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "") String site, ModelMap model) {
 
         Sort sort = Sort.by("registerDate").descending();
 

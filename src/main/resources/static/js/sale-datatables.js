@@ -27,14 +27,14 @@ $(document).ready(function () {
                 text: "Editar",
                 attr: {
                     id: "editButton",
-                    class: "btn btn-primary"
+                    type: "button",
                 },
             },
             {
                 text: "Excluir",
                 attr: {
                     id: "deleteButton",
-                    class: "btn btn-danger"
+                    type: "button",
                 },
             }
         ]
