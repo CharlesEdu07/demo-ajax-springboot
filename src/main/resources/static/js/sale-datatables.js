@@ -1,6 +1,6 @@
 $(document).ready(function () {
     moment.locale("pt-br");
-    $("#table-server").DataTable({
+    var table = $("#table-server").DataTable({
         processing: true,
         serverSide: true,
         responsive: true,
@@ -29,6 +29,7 @@ $(document).ready(function () {
                     id: "editButton",
                     type: "button",
                 },
+                enabled: false
             },
             {
                 text: "Excluir",
@@ -36,22 +37,37 @@ $(document).ready(function () {
                     id: "deleteButton",
                     type: "button",
                 },
+                enabled: false
             }
         ]
+    });
+
+    $("#table-server thead").on("click", "tr", function () {
+        table.buttons().disable();
     });
 
     $("#table-server tbody").on("click", "tr", function () {
         if ($(this).hasClass("selected")) {
             $(this).removeClass("selected");
+
+            table.buttons().disable();
         } else {
             $("tr.selected").removeClass("selected");
 
             $(this).addClass("selected");
+
+            table.buttons().enable();
         }
     });
 
     $("#editButton").click(function () {
-        alert("Editar");
+        var table_row = table.row(table.$("tr.selected"))
+
+        if (table_row.data() !== undefined) {
+            var id = table.row(table.$("tr.selected")).data().id;
+
+            alert("Editar" + id);
+        }
     });
 
     $("#deleteButton").click(function () {
