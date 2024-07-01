@@ -63,14 +63,24 @@ $(document).ready(function () {
     $("#editButton").click(function () {
         var table_row = table.row(table.$("tr.selected"))
 
-        if (table_row.data() !== undefined) {
-            var id = table.row(table.$("tr.selected")).data().id;
-
-            alert("Editar" + id);
+        if (isSelectedRow()) {
+            $("#modal-form").modal("show");
         }
     });
 
     $("#deleteButton").click(function () {
-        alert("Excluir");
+        if (isSelectedRow()) {
+            $("#modal-delete").modal("show");
+        }
     });
+
+    function getSaleId() {
+        return table.row(table.$("tr.selected")).data().id;
+    }
+
+    function isSelectedRow() {
+        var table_row = table.row(table.$("tr.selected"));
+
+        return table_row.data() !== undefined;
+    }
 });
