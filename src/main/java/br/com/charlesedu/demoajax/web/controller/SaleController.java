@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -121,6 +122,13 @@ public class SaleController {
         }
 
         return "sale-card";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteSale(@PathVariable Long id) {
+        saleRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/table")

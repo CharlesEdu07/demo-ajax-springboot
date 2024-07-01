@@ -8,11 +8,7 @@ $(document).ready(function () {
 // Infinite scroll effect
 $(window).scroll(function () {
     var scrollTop = $(this).scrollTop();
-
     var content = $(document).height() - $(window).height();
-
-    // console.log('scrollTop: ', scrollTop);
-    // console.log('content: ', content);
 
     if (scrollTop >= content) {
         pageNumber++;
@@ -82,6 +78,7 @@ $("#autocomplete-submit").on("click", function () {
         },
         beforeSend: function () {
             pageNumber = 0;
+
             $("#end-btn").hide();
             $(".row").fadeOut(400, function () {
                 $(this).empty();

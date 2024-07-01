@@ -74,6 +74,23 @@ $(document).ready(function () {
         }
     });
 
+    $("#btn-del-modal").on("click", function () {
+        var id = getSaleId();
+
+        $.ajax({
+            method: "DELETE",
+            url: "/sale/delete/" + id,
+            success: function () {
+                $("#modal-delete").modal("hide");
+
+                table.ajax.reload();
+            },
+            error: function (xhr) {
+                alert("Ops! Ocorreu um erro: " + xhr.status + " - " + xhr.statusText);
+            }
+        })
+    });
+
     function getSaleId() {
         return table.row(table.$("tr.selected")).data().id;
     }
