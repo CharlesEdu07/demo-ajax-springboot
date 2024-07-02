@@ -30,8 +30,6 @@ import br.com.charlesedu.demoajax.repository.SaleRepository;
 import br.com.charlesedu.demoajax.service.SaleDataTablesService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/sale")
