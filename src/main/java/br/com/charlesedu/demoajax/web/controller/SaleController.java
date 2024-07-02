@@ -30,6 +30,8 @@ import br.com.charlesedu.demoajax.repository.SaleRepository;
 import br.com.charlesedu.demoajax.service.SaleDataTablesService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/sale")
@@ -129,6 +131,13 @@ public class SaleController {
         saleRepository.deleteById(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/update/{id}")
+    public ResponseEntity<?> preUpdateSale(@PathVariable Long id) {
+        Sale sale = saleRepository.findById(id).get();
+
+        return ResponseEntity.ok(sale);
     }
 
     @GetMapping("/table")

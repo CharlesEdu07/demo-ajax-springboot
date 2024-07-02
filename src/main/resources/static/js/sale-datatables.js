@@ -26,7 +26,7 @@ $(document).ready(function () {
             {
                 text: "Editar",
                 attr: {
-                    id: "editButton",
+                    id: "updateButton",
                     type: "button",
                 },
                 enabled: false
@@ -60,11 +60,33 @@ $(document).ready(function () {
         }
     });
 
-    $("#editButton").click(function () {
-        var table_row = table.row(table.$("tr.selected"))
-
+    $("#updateButton").click(function () {
         if (isSelectedRow()) {
-            $("#modal-form").modal("show");
+            var id = getSaleId();
+
+            $.ajax({
+                method: "GET",
+                url: "/sale/update/" + id,
+                beforeSend: function () {
+                    $("#modal-form").modal("show");
+                },
+                success: function (data) {
+                    $("#updt_id").val(data.id);
+                    $("#updt_site").text(data.site);
+                    $("#updt_title").val(data.title);
+                    $("#updt_description").val(data.description);
+                    $("#updt_price").val(data.price.toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }));
+                    $("#updt_category").val(data.category.id);
+                    $("#updt_imageLink").val(data.imageLink);
+                    $("#updt_image").attr("src", data.imageLink);
+                },
+                error: function (xhr) {
+                    alert("Ops! Ocorreu um erro: " + xhr.status + " - " + xhr.statusText);
+                }
+            });
         }
     });
 
