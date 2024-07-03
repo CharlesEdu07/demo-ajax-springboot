@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.charlesedu.demoajax.domain.Category;
 import br.com.charlesedu.demoajax.domain.Sale;
+import br.com.charlesedu.demoajax.dto.SaleDTO;
 import br.com.charlesedu.demoajax.repository.CategoryRepository;
 import br.com.charlesedu.demoajax.repository.SaleRepository;
 import br.com.charlesedu.demoajax.service.SaleDataTablesService;
@@ -124,18 +126,43 @@ public class SaleController {
         return "sale-card";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteSale(@PathVariable Long id) {
-        saleRepository.deleteById(id);
-
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/update/{id}")
     public ResponseEntity<?> preUpdateSale(@PathVariable Long id) {
         Sale sale = saleRepository.findById(id).get();
 
         return ResponseEntity.ok(sale);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateSale(@Valid SaleDTO saleDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+
+            for (FieldError error : result.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+
+            return ResponseEntity.unprocessableEntity().body(errors);
+        }
+
+        Sale sale = saleRepository.findById(saleDTO.id()).get();
+
+        sale.setCategory(saleDTO.category());
+        sale.setDescription(saleDTO.description());
+        sale.setImageLink(saleDTO.imageLink());
+        sale.setPrice(saleDTO.price());
+        sale.setTitle(saleDTO.title());
+
+        saleRepository.save(sale);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteSale(@PathVariable Long id) {
+        saleRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/table")
