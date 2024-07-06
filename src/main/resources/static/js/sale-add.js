@@ -47,6 +47,7 @@ $("#form-add-sale").submit(function (event) {
 
                 $.each(errors, function (key, value) {
                     $("#" + key).addClass("is-invalid");
+                    
                     $("#error-" + key).addClass("invalid-feedback").append("<span class='error-span'>" + value + "</span>");
                 })
             }

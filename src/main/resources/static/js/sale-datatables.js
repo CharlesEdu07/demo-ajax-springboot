@@ -90,6 +90,49 @@ $(document).ready(function () {
         }
     });
 
+    $("#btn-update-modal").on("click", function () {
+        var sale = {};
+
+        debugger;
+
+        sale.id = $("#updt_id").val();
+        sale.title = $("#updt_title").val();
+        sale.description = $("#updt_description").val();
+        sale.imageLink = $("#updt_imageLink").val();
+        sale.price = parseFloat($("#updt_price").val().replace(",", "."));
+        sale.category = $("#updt_category").val();
+
+        $.ajax({
+            method: "PUT",
+            url: "/sale/update",
+            data: sale,
+            success: function () {
+                $("#modal-form").modal("hide");
+
+                table.ajax.reload();
+            },
+            statusCode: {
+                422: function (xhr) {
+                    console.log('> error: ', xhr.responseText);
+
+                    var errors = $.parseJSON(xhr.responseText);
+
+                    $.each(errors, function (key, value) {
+                        $("#updt_" + key).addClass("is-invalid");
+
+                        $("#error-" + key).addClass("invalid-feedback").append("<span class='error-span'>" + value + "</span>");
+                    })
+                }
+            },
+        });
+    });
+
+    $("#updt_imageLink").on("change", function () {
+        var link = $(this).val();
+
+        $("#updt_image").attr("src", link);
+    });
+
     $("#deleteButton").click(function () {
         if (isSelectedRow()) {
             $("#modal-delete").modal("show");
