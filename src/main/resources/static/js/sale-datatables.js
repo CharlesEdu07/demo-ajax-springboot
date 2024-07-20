@@ -93,17 +93,22 @@ $(document).ready(function () {
     $("#btn-update-modal").on("click", function () {
         var sale = {};
 
-        debugger;
-
         sale.id = $("#updt_id").val();
         sale.title = $("#updt_title").val();
         sale.description = $("#updt_description").val();
         sale.imageLink = $("#updt_imageLink").val();
-        sale.price = parseFloat($("#updt_price").val().replace(",", "."));
         sale.category = $("#updt_category").val();
 
+        var priceVal = $("#updt_price").val();
+
+        if (priceVal) {
+            sale.price = parseFloat(priceVal.replace(",", "."));
+        } else {
+            sale.price = null;
+        }
+
         $.ajax({
-            method: "PUT",
+            method: "POST",
             url: "/sale/update",
             data: sale,
             success: function () {

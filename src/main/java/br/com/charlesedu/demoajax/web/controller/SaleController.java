@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -133,8 +132,10 @@ public class SaleController {
         return ResponseEntity.ok(sale);
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     public ResponseEntity<?> updateSale(@Valid SaleDTO saleDTO, BindingResult result) {
+        log.info(saleDTO.toString());
+
         if (result.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
 
@@ -145,13 +146,13 @@ public class SaleController {
             return ResponseEntity.unprocessableEntity().body(errors);
         }
 
-        Sale sale = saleRepository.findById(saleDTO.id()).get();
+        Sale sale = saleRepository.findById(saleDTO.getId()).get();
 
-        sale.setCategory(saleDTO.category());
-        sale.setDescription(saleDTO.description());
-        sale.setImageLink(saleDTO.imageLink());
-        sale.setPrice(saleDTO.price());
-        sale.setTitle(saleDTO.title());
+        sale.setCategory(saleDTO.getCategory());
+        sale.setDescription(saleDTO.getDescription());
+        sale.setImageLink(saleDTO.getImageLink());
+        sale.setPrice(saleDTO.getPrice());
+        sale.setTitle(saleDTO.getTitle());
 
         saleRepository.save(sale);
 
