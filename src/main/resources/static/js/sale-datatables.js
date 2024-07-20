@@ -68,6 +68,12 @@ $(document).ready(function () {
                 method: "GET",
                 url: "/sale/update/" + id,
                 beforeSend: function () {
+                    // Remove all error messages
+                    $("span").closest(".error-span").remove();
+
+                    // Remove all is-invalid classes
+                    $(".is-invalid").removeClass("is-invalid");
+
                     $("#modal-form").modal("show");
                 },
                 success: function (data) {
@@ -111,6 +117,13 @@ $(document).ready(function () {
             method: "POST",
             url: "/sale/update",
             data: sale,
+            beforeSend: function () {
+                // Remove all error messages
+                $("span").closest(".error-span").remove();
+
+                // Remove all is-invalid classes
+                $(".is-invalid").removeClass("is-invalid");
+            },
             success: function () {
                 $("#modal-form").modal("hide");
 
