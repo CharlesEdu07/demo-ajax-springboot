@@ -1,6 +1,7 @@
 package br.com.charlesedu.demoajax.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -33,4 +34,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     @Query("SELECT s.likes FROM Sale s WHERE s.id = :id")
     int findLikesById(@Param("id") Long id);
+
+    @Query("SELECT MAX(s.registerDate) from Sale s")
+    LocalDateTime findSaleWithLastDate();
 }
