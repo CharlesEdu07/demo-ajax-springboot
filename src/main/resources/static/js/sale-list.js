@@ -110,3 +110,18 @@ $(document).on("click", "button[id*='likes-btn-']", function () {
         }
     });
 });
+
+// SSE
+window.onload = init();
+
+function init() {
+    const evtSource = new EventSource("/sale/notification");
+
+    evtSource.onopen = (event) => {
+        console.log("The connection has been estabilished.");
+    }
+
+    evtSource.onmessage = (event) => {
+        console.log("New message", event.data);
+    }
+}
