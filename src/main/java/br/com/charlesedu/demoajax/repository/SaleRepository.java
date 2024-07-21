@@ -3,6 +3,7 @@ package br.com.charlesedu.demoajax.repository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,9 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("SELECT s.likes FROM Sale s WHERE s.id = :id")
     int findLikesById(@Param("id") Long id);
 
-    @Query("SELECT MAX(s.registerDate) from Sale s")
+    @Query("SELECT MAX(s.registerDate) FROM Sale s")
     LocalDateTime findSaleWithLastDate();
+
+    @Query("SELECT COUNT(s.id) AS count, MAX(s.registerDate) AS lastDate FROM Sale s WHERE s.registerDate > :lastDate")
+    Map<String, Object> countAndMaxNewSaleByRegisterDate(LocalDateTime lastDate);
 }

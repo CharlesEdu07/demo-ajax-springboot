@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import br.com.charlesedu.demoajax.domain.Emitter;
 import br.com.charlesedu.demoajax.repository.SaleRepository;
+import br.com.charlesedu.demoajax.service.NotificationService;
 
 @Controller
 public class NotificationController {
@@ -17,13 +18,21 @@ public class NotificationController {
     @Autowired
     private SaleRepository saleRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @GetMapping("/sale/notification")
     public SseEmitter sendNotification() throws IOException {
         SseEmitter sseEmitter = new SseEmitter(0L);
 
-        Emitter emitter = new Emitter(sseEmitter, getLastSaleRegisterDate()); 
+        Emitter emitter = new Emitter(sseEmitter, getLastSaleRegisterDate());
 
-        emitter.getEmitter().send(emitter.getLastDate());
+        notificationService.onOpen(emitter);
+        notificationService.addEmitter(emitter);
+
+        emitter.getEmitter().onCompletion(() -> notificationService.removeEmitter(emitter));
+
+        System.out.println("> size after add: " + notificationService.getEmitters().size());
 
         return sseEmitter;
     }
