@@ -114,14 +114,61 @@ $(document).on("click", "button[id*='likes-btn-']", function () {
 // SSE
 window.onload = init();
 
+var totalSales = new Number(0);
+
 function init() {
     const evtSource = new EventSource("/sale/notification");
 
     evtSource.onopen = (event) => {
         console.log("The connection has been estabilished.");
-    }
+    };
 
     evtSource.onmessage = (event) => {
-        console.log("New message", event.data);
-    }
+        const count = event.data;
+
+        if (count > 0) {
+            showButton(count);
+        }
+    };
 }
+
+function showButton(count) {
+    totalSales = totalSales + new Number(count);
+
+    $("#btn-alert").show(function () {
+        $(this).attr("style", "display: block;").text("Veja " + totalSales + " novas(s) oferta(s)!");
+    })
+}
+
+$("#btn-alert").click(function () {
+    $.ajax({
+        method: "GET",
+        url: "/sale/list/ajax",
+        data: {
+            page: 0,
+            site: ''
+        },
+        beforeSend: function () {
+            pageNumber = 0;
+            totalSales = 0;
+
+            $("#end-btn").hide();
+            $("#loader-img").addClass("loader");
+            $("#btn-alert").attr("style", "display: none");
+
+            $(".row").fadeOut(400, function () {
+                $(this).empty();
+            });
+        },
+        success: function (response, status, xhr) {
+            $("#loader-img").hide();
+
+            $(".row").fadeIn(250, function () {
+                $(this).append(response);
+            });
+        },
+        error: function (error) {
+            console.log("error: ", error)
+        }
+    });
+});

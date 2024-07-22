@@ -29,7 +29,7 @@ public class NotificationService {
         emitter.getEmitter().send(SseEmitter.event().data(" ").id(emitter.getId()));
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 5000)
     public void notifyClient() {
         List<Emitter> emittersErrors = new ArrayList<>();
 

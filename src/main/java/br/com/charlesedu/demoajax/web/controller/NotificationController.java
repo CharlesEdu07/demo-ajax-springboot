@@ -34,7 +34,7 @@ public class NotificationController {
 
         System.out.println("> size after add: " + notificationService.getEmitters().size());
 
-        return sseEmitter;
+        return emitter.getEmitter();
     }
 
     private LocalDateTime getLastSaleRegisterDate() {
